@@ -153,10 +153,10 @@ def solveFact_robust(img_set, mask, L, t_low = 0.6, shadow_ratio = 0.25, remove_
     thres_mask = get_valid_mask(m, t_low, shadow_ratio)
     if f_org - f_org*remove_ratio > 3:
         mask_t_idx = np.argsort(-np.sum(thres_mask, axis=1))[:int(f_org - f_org*remove_ratio)]
-        mask_t = np.zeros(f_org).astype(np.bool)
+        mask_t = np.zeros(f_org).astype(np.bool_)
         mask_t[mask_t_idx] = True
     else:
-        mask_t = np.ones(f_org).astype(np.bool)
+        mask_t = np.ones(f_org).astype(np.bool_)
 
     from SRT3.MPS_SCPS import solveFact
     Normal, reflectance = solveFact(img_set[:,:,mask_t], mask, L[mask_t])

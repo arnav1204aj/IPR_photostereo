@@ -1,0 +1,4 @@
+false, 0.5 cross
+true, 0.5 AM at 4 was 6.13, AM at 24 was 4.43, robust AM at 24 was 2.36     choose this for error maps
+false, None cross
+true, None linear at 4 was 9.2, 

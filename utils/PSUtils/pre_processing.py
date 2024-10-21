@@ -82,7 +82,7 @@ def get_valid_mask(M, t_low, shadow_ratio = 1e-4):
     t_select_id = int(f * t_low)
 
     t_select_id = np.maximum(t_select_id, 4) # at lease select 4 lights
-    thres_mask = np.zeros([f, p]).astype(np.bool) # the low-frequency observation mask for all the pixels
+    thres_mask = np.zeros([f, p]).astype(np.bool_) # the low-frequency observation mask for all the pixels
     shadow_mask = M < np.median(M) * shadow_ratio
     index_f = np.arange(f)
     for i in tqdm.trange(p):

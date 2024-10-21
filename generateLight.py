@@ -10,7 +10,7 @@ from mpl_toolkits.mplot3d import Axes3D
 class Rotation2point(object):
 
     def __init__(self,vec_a, vec_b):
-        # rotate from vector a to vector b
+        
         self.vec_a=vec_a/np.linalg.norm(vec_a)
         self.vec_b=vec_b/np.linalg.norm(vec_b)
         self.rotationMatrix=[]
@@ -30,7 +30,7 @@ class Rotation2point(object):
         return self.rotationMatrix
 
     def rotatePointsbyMatrix(self,pointset):
-        # the pointset is defined as a 3*n matrix with normalized point vector
+        
         pointset_norm=pointset/np.linalg.norm(pointset,axis=0)
         pointset_rot=self.rotationMatrix*pointset_norm
         pointset_rot_norm=pointset_rot/np.linalg.norm(pointset_rot,axis=0)
@@ -40,7 +40,7 @@ class LightGen(object):
     """
     generate lights which uniformly attribute in a unit sphere
     """
-    # we have two methods for generate light : regular and random
+    
     def __init__(self, N, angle, isHalfRequired, lightzmargin,method="random"):
         assert N,"Light number is zero"
         self.method=method
@@ -67,7 +67,7 @@ class LightGen(object):
             raise RuntimeError('No specific method : regular/random, input is '.join(self.method))
 
         if self.isHalfRequired:
-            # use z as index
+            
             index=self.L[2]>0
             self.L = self.L[:,index]
         if self.lightzmargin is not None:
@@ -75,7 +75,7 @@ class LightGen(object):
             self.L = self.L[:, index]
 
         _, self.LightNum=self.L.shape
-        return self.L.transpose() #shape (N,3)
+        return self.L.transpose() 
 
 
 
@@ -127,16 +127,16 @@ class LightGen(object):
 
 
 if __name__ == '__main__':
-
-    generator=LightGen(96.0,np.array([0,0,1]),True, 0.5, "regular")
+    num_lights = 24
+    generator=LightGen(num_lights*4,np.array([0,0,1]),True, 0.5, "regular")
     generator.run()
 
-    light_ins = np.random.random(24)
-    print(light_ins)
-    plt.plot(light_ins)
-    plt.show()
+    light_ins = np.random.random(int(num_lights))     
+    # plt.plot(light_ins)
+    # plt.show()
     L_out = light_ins[:, np.newaxis] * generator.L.T
-    np.save('./sample/sample_sphere_light_24_3.npy', generator.L.T)
-    np.save('./sample/sample_sphere_scaled_light_24_3.npy', L_out)
 
-    print(generator.L.T)
+    
+
+
+    

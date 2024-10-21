@@ -1,6 +1,7 @@
 import numpy as np
 import os
-
+#from utils.PSUtils.pre_processing import data_loader_normal_mask_light
+import matplotlib.pyplot as plt
 
 def generate_no_shadow_random_light_normal(p, f):
     '''
@@ -29,6 +30,9 @@ def generate_no_shadow_random_light_normal(p, f):
                 break
     m = L @ n_gt  # generate measurements
     m[m < 0.] = 0.
+    print(m)
+    print(L)
+    print(n_gt)
     return [m, L, n_gt]
 
 
@@ -56,15 +60,24 @@ def render_example(data_folder):
     mask_path = os.path.join(data_folder, 'mask.npy')
     L_path = os.path.join(data_folder, 'L_dir.npy')
 
-    from utils.PSUtils.pre_processing import data_loader_normal_mask_light
+    
     [N_gt, mask, L_dir] = data_loader_normal_mask_light(N_path, mask_path, L_path)
     albedo_map = np.ones_like(mask).astype(np.float64)
     img_set = render_Lambertian(N_gt, L_dir, mask, albedo_map, method_type='CPS')
-    np.save(os.path.join(data_folder, 'imgs.npy'), img_set)
+    img_avg = np.mean(img_set, axis=2)
+
+    plt.imshow(img_avg, cmap='gray')
+    plt.title('Average of All Spectral Bands')
+    plt.show()
+    # np.save(os.path.join(data_folder, 'imgs.npy'), img_set)
 
 if __name__ == '__main__':
-    render_example('sample/bunny')
-    render_example('sample/sphere')
+    #img_set = np.load('C:/Users/arnav/OneDrive/Desktop/7th sem/IPR/project_stereo/MultispectralPS/utils/PSUtils/sample/sphere/imgs.npy')
+    from pre_processing import data_loader_normal_mask_light
+# Display the image
+    #generate_no_shadow_random_light_normal(2,4)
+    render_example('C:/Users/arnav/OneDrive/Desktop/7th sem/IPR/project_stereo/MultispectralPS/utils/PSUtils/sample/bunny')
+    #render_example('C:/Users/arnav/OneDrive/Desktop/7th sem/IPR/project_stereo/MultispectralPS/utils/PSUtils/sample/sphere')
 
 
 

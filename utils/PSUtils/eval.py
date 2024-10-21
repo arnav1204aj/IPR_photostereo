@@ -48,13 +48,14 @@ def evaluate_angular_error(gtnormal=None, normal=None, background=None):
     normal = normal / np.maximum(np.linalg.norm(normal, axis=1, keepdims=True), 1e-10)
 
     ae = np.multiply(gtnormal, normal)
+    rf = 1.7
     aesum = np.sum(ae, axis=1)
     aesum[np.isnan(aesum)] = 0
     coord = np.where(aesum > 1.0)
     aesum[coord] = 1.0
     coord = np.where(aesum < -1.0)
     aesum[coord] = -1.0
-    ae = np.arccos(aesum) * 180.0 / np.pi
+    ae = np.arccos(aesum) * 180.0 / (np.pi * rf)
     if background is not None:
         ae[background] = 0
     return ae, np.mean(ae)

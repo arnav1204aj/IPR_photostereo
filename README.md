@@ -1,15 +1,22 @@
-# Multispectral Photometric Stereo
-Implementation for "Multispectral Photometric Stereo for Spatially-Varying Spectral Reflectances:  A well posed problem?" CVPR 2021
+# Dependencies
+Check requirements.txt
 
-## Dependencies
-- Python 3.7
-- numpy
-- cvxopt
+# Parameters
+1. albedo - 'sv' for spatially varying (SRT3), 'unif' for uniform (SRT2)
+2. mode - 'norm' for normal, 'rob' for robust
+3. num_lights - 4 to 24 for 'norm', 17 to 24 for 'rob'
 
-## How to run
-```shell
-python test.py
-```
+# Running Results
 
-## Todo
-- [ ] Real captured data realease.
+1. Error Maps, Normal Estimates, MAE, Rendered Images, Albedos
+Run err_maps.py (set params albedo, mode, num_lights)
+
+2. Graphs
+In testplot.py, uncomment appropriate block for the required graph.
+
+3. Lights
+Run generateLight.py, set num_lights to required number.
+
+
+
+
