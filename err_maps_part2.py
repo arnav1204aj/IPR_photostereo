@@ -2,12 +2,12 @@ import numpy as np
 from matplotlib import pyplot as plt
 import os
 from utils.PSUtils.albedo import extract_albedo_from_image
-from SRT3 import MPS_SCPS, MPS_SCPS_robust
+from SRT3 import  MPS_SCPS_robust_part2
 
 from utils.PSUtils.render import render_Lambertian
 from utils.PSUtils.eval import evalsurfaceNormal
 
-def runmap(albedo, mode, num_lights,seed):
+def runmap(albedo,  num_lights,seed):
         
         Data_folder = r'utils/PSUtils/sample/bunny'
         N_path = os.path.join(Data_folder, 'normal.npy')
@@ -43,35 +43,24 @@ def runmap(albedo, mode, num_lights,seed):
         img_set = render_Lambertian(N_gt, L_dir, mask, albedo_map, method_type='MPS', render_shadow=True)
         
         
-        if mode=='rob':
-            method_set = ['rob_AM']
-            for method in method_set:
-                
-                [N_est, reflectance] = MPS_SCPS_robust.run_MPS_SCPS_rob(img_set, mask, L_dir, method)
-                
-                [error_map, MAE, MedianE] = evalsurfaceNormal(N_gt, N_est, mask)
-                # img_avg = error_map
-                
-                # img_avg = N_est
-                # plt.imshow(img_avg, cmap='jet')
-                # plt.title('Average of All Spectral Bands')
-                # plt.show()
-                print(method, MAE)
+        
+        method_set = ['rob_Fact']
+        for method in method_set:
+            print(mask.shape)
+            [N_est, reflectance] = MPS_SCPS_robust_part2.run_MPS_SCPS_rob(img_set, mask, L_dir, method)
+            print(N_est.shape)
+            [error_map, MAE, MedianE] = evalsurfaceNormal(N_gt, N_est, mask)
+            # img_avg = error_map
+            
+            # img_avg = N_est
+            # plt.imshow(img_avg, cmap='jet')
+            # plt.title('Average of All Spectral Bands')
+            # plt.show()
+            print(method, MAE)
                 
                 
 
-        elif mode=='norm':
-            method_set = ['AM']
-            for method in method_set:
-                [N_est, reflectance] = MPS_SCPS.run_MPS_SCPS(img_set, mask, L_dir, method)
-                
-                [error_map, MAE, MedianE] = evalsurfaceNormal(N_gt, N_est, mask)
-                # img_avg = error_map
-                # #img_avg = N_est
-                # plt.imshow(img_avg, cmap='jet')
-                # plt.title('Average of All Spectral Bands')
-                # plt.show()
-                print(method, MAE)
+       
                   
                      
     
@@ -79,22 +68,22 @@ def runmap(albedo, mode, num_lights,seed):
 
 #alter these 3 params to get results
 albedo = 'sv'       
-mode = 'rob'
-num_lights =24
+num_lights = 24
 
 
 
 
-num_iter = 100
+num_iter = 1
 mae = 0
 errmap = None
 normals = None
 rend_img = None
+
 for i in range(num_iter):
  
  seed = 50 + i
  
- x,y,z,w,albedo_map = runmap(albedo,mode,num_lights,seed)
+ x,y,z,w,albedo_map = runmap(albedo,num_lights,seed)
  print(x)
  mae = mae + x
  if i==0:
@@ -147,6 +136,3 @@ img_avg = rendered_img[:,:,23]
 plt.imshow(img_avg, cmap='gray')
 plt.title('Light 24 rendered image')
 plt.show()
-
-
-  

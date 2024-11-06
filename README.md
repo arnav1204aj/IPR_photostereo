@@ -9,10 +9,10 @@ Check requirements.txt
 # Running Results
 
 1. Error Maps, Normal Estimates, MAE, Rendered Images, Albedos
-Run err_maps.py (set params albedo, mode, num_lights)
+Run err_maps.py (set params albedo, mode, num_lights) and err_maps_part2.py (set params albedo, num_lights)
 
 2. Graphs
-In testplot.py, uncomment appropriate block for the required graph.
+In testplot.py and testplot_part2.py, uncomment appropriate block for the required graph.
 
 3. Lights
 Run generateLight.py, set num_lights to required number.
